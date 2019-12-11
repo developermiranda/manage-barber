@@ -1,5 +1,7 @@
 import User from '../models/User';
 import Notification from '../schemas/Notification';
+import { async } from 'rxjs/internal/scheduler/async';
+import { updateLocale } from 'moment';
 
 class NotificationController {
   async index(req, res) {
@@ -22,6 +24,18 @@ class NotificationController {
       .limit(20);
 
     return res.json(notifications);
+  }
+
+  /**
+   * Method Update of Notify
+   */
+  async update(req, res) {
+    const notification = await Notification.findByIdAndUpdate(
+      req.params.id,
+      { read: true },
+      { new: true }
+    );
+    return res.json(notification);
   }
 }
 
